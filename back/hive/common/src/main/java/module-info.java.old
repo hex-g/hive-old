@@ -1,0 +1,8 @@
+module common.main {
+  requires spring.beans;
+  requires spring.boot;
+  requires spring.boot.autoconfigure;
+  requires spring.cloud.netflix.eureka.client;
+  opens hive.common.security;
+  opens hive.common;
+}

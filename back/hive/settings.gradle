@@ -1,0 +1,6 @@
+rootProject.name = 'hive'
+
+include 'auth'
+include 'common'
+include 'gateway'
+include 'naming-server'
