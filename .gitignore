@@ -1,6 +1,12 @@
 ### Project ###
 /secrets/
 
+/back/hive/auth/out/
+/back/hive/common/out/
+/back/hive/gateway/out/
+/back/hive/naming-server/out/
+/back/hive/repository/out/
+
 ### Spring Initializr ###
 HELP.md
 
