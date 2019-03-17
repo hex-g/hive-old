@@ -10,7 +10,7 @@ __POST:__ Request Bearer token
 #### HEADERS:
 __Content-Type:__ application/json
 #### BODY:
-```
+```javascript
 {
   "username": string,
   "password": string
