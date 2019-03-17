@@ -12,20 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-@Service   // It has to be annotated with @Service.
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-  @Autowired
-  private RestTemplate restTemplate;
-
   @Autowired
   private BCryptPasswordEncoder encoder;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    final Object test = restTemplate.getForObject("http://repository-service", Object.class);
-
     // hard coding the users. All passwords must be encoded.
     final List<AppUser> users = Arrays.asList(
         new AppUser(1, "omar", encoder.encode("12345"), "USER"),
