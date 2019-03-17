@@ -10,13 +10,9 @@ import hive.repository.model.User;
 
 @RestController
 @RequestMapping("/user")
-public class RepositoryController {
+public class UserController {
   @GetMapping("/{username}")
   public User getUserByUsername(@PathVariable final String username) {
-    var user = UserRepository.instance.findUserByUsername(username);
-
-    if (user == null) throw new UserNotFoundException();
-
-    return user;
+    return UserRepository.instance.findUserByUsername(username);
   }
 }
