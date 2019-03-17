@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import hive.repository.model.User;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user")
 public class RepositoryController {
-  @GetMapping("/user/{username}")
+  @GetMapping("/{username}")
   public User getUserByUsername(@PathVariable final String username) {
     var user = UserRepository.instance.findUserByUsername(username);
 
