@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <link rel="stylesheet" href="css/default-markdown-style.css">
+  <!-- <link rel="stylesheet" href="css/premito.css"> -->
+  <link rel="stylesheet" href="css/github-dark.css">
+  <meta charset="utf-8" />
+  <title>Marked in the browser</title>
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+  <script src="GerDown.js"></script>
+
+  <div id="line-counter">Linhas: 10 | linha atual: 2 | Quantidade de caracteres: 300</div>
+  <div id="markdown-box" contenteditable="true" tabindex="0"></div>
+  <div id="html-viewer">
+  </div>
+
+  <script>
+    var optionsTurnDown = {
+      headingStyle: 'atx'
+    }
+    var optionsMarked = {
+      gfm: true
+    }
+    var turndownService = new TurndownService(optionsTurnDown);
+    var markdownBox = document.getElementById('markdown-box')
+    var lineCounter = document.getElementById('line-counter')
+    function placeCaretAtEnd(el) {
+      el.focus();
+      if (typeof window.getSelection != "undefined"
+        && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse(false);
+        textRange.select();
+      }
+    }
+    markdownBox.onkeydown = function (evt) {
+      //  evt.stopPropagation();
+      //   evt.stopImmediatePropagation() 
+      evt = evt || window.event
+      console.log(evt.key)
+      var linhas = markdownBox.innerHTML.split("<br/>")
+      //console.log('ué:(alterar isso)' + linhas.length)
+      lineCounter.innerText = 'Linhas: ' + linhas.length + '  |  linha atual: ' + 'Ainda vejo isso' + '   |  Quantidade de caracteres: ' + markdownBox.innerText.length
+      if (evt.key === "Enter") {
+        //console.log(markdownBox.innerText.length)
+        //console.log(markdownBox.innerHTML)
+        var asHTML = turndownService.turndown(markdownBox.innerHTML);
+
+        asHTML = asHTML.replace(/\\/g, '');
+        console.log(asHTML)
+        console.log(marked(asHTML, optionsMarked))
+        markdownBox.innerHTML = marked(asHTML, optionsMarked)
+        placeCaretAtEnd(markdownBox)
+      }
+      if (evt.key === 'Tab') { // tab key
+        evt.preventDefault();  // this will prevent us from tabbing out of the editor
+        // now insert four non-breaking spaces for the tab key
+        var doc = markdownBox.ownerDocument.defaultView;
+        var sel = doc.getSelection();
+        var range = sel.getRangeAt(0);
+
+        var tabNode = document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+        range.insertNode(tabNode);
+
+        range.setStartAfter(tabNode);
+        range.setEndAfter(tabNode);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+
+    }
+    /*function processMarkdown(event)*/
+    /*inicia com foco*/
+    window.onload = function () {
+      document.getElementById("markdown-editor").focus()
+    }
+    markdownBox.innerHTML =
+      marked('# Marked in the browser\n## Olá\nRendered by **marked**.', optionsMarked)
+    var markdown = turndownService.turndown('<h1>1\. Hello world</h1> ');
+    console.log(markdown);
+  </script>
+</body>
+
+</html>
